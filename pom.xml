@@ -22,7 +22,7 @@
 		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>amazon-kinesis-connectors</artifactId>
-			<version>${amazon-kinesis-connectors.version}</version>
+			<version>${amazon-kinesis-connector.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.amazonaws</groupId>
