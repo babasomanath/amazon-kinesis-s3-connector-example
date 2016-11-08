@@ -18,6 +18,7 @@ package com.kinesisboard.amazonaws.model;
 import java.io.IOException;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -31,90 +32,154 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class StockTrade implements Serializable,Comparable<StockTrade>{
 
-    /**
+	/**
 	 * DEFAULT SERIAL ID
 	 */
 	private static final long serialVersionUID = 1L;
 	private final static ObjectMapper JSON = new ObjectMapper();
-    static {
-        JSON.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    }
+	static {
+		JSON.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	}
 
-    /**
-     * Represents the type of the stock trade eg buy or sell.
-     */
-    public enum TradeType {
-        BUY,
-        SELL
-    }
+	/**
+	 * Represents the type of the stock trade eg buy or sell.
+	 */
+	public enum TradeType {
+		BUY, SELL
+	}
 
-    private String tickerSymbol;
-    private TradeType tradeType;
-    private double price;
-    private long quantity;
-    private long id;
-    private Long timeInNanos;
-    
-    public StockTrade() {
-    }
+	private String tickerSymbol;
+	private TradeType tradeType;
+	private double price;
+	private long quantity;
+	private long id;
+	private Long timeInMillis;
 
-    public StockTrade(String tickerSymbol, TradeType tradeType, double price, long quantity, long id) {
-        this.tickerSymbol = tickerSymbol;
-        this.tradeType = tradeType;
-        this.price = price;
-        this.quantity = quantity;
-        this.id = id;
-        this.timeInNanos=System.nanoTime();
-    }
+	public StockTrade() {
+	}
 
-    public String getTickerSymbol() {
-        return tickerSymbol;
-    }
+	public StockTrade(String tickerSymbol, TradeType tradeType, double price,
+			long quantity, long id) {
+		this.tickerSymbol = tickerSymbol;
+		this.tradeType = tradeType;
+		this.price = price;
+		this.quantity = quantity;
+		this.id = id;
+		this.timeInMillis = System.currentTimeMillis();
+	}
 
-    public TradeType getTradeType() {
-        return tradeType;
-    }
+	public String getTickerSymbol() {
+		return tickerSymbol;
+	}
 
-    public double getPrice() {
-        return price;
-    }
+	public TradeType getTradeType() {
+		return tradeType;
+	}
 
-    public long getQuantity() {
-        return quantity;
-    }
+	public double getPrice() {
+		return price;
+	}
 
-    public long getId() {
-        return id;
-    }
-    
-    public Long getDateTime(){
-    	return timeInNanos;
-    }
-    
-    public byte[] toJsonAsBytes() {
-        try {
-            return JSON.writeValueAsBytes(this);
-        } catch (Exception e) {
-            return null;
-        }
-    }
+	public long getQuantity() {
+		return quantity;
+	}
 
-    public static StockTrade fromJsonAsBytes(byte[] bytes) {
-        try {
-            return JSON.readValue(bytes, StockTrade.class);
-        } catch (IOException e) {
-            return null;
-        }
-    }
+	public long getId() {
+		return id;
+	}
 
-    @Override
+	public Long getTimeInMillis() {
+		return timeInMillis;
+	}
+
+	public byte[] toJsonAsBytes() {
+		try {
+			return JSON.writeValueAsBytes(this);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public static StockTrade fromJsonAsBytes(byte[] bytes) {
+		try {
+			return JSON.readValue(bytes, StockTrade.class);
+		} catch (IOException e) {
+			return null;
+		}
+	}
+
+	@Override
     public String toString() {
-        return String.format("{id:%d,tradeType:\"%s\",quantity:%d,tickerSymbol:\"%s\",price:%.02f,timeInNanos:\"%s\"}",
-                id, tradeType, quantity, tickerSymbol, price,timeInNanos);
+        try {
+            return new ObjectMapper().writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            return super.toString();
+        }
     }
-    
+
 	@Override
 	public int compareTo(StockTrade stockObject) {
-		return this.timeInNanos.compareTo(stockObject.timeInNanos);
+		return this.timeInMillis.compareTo(stockObject.timeInMillis);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		long temp;
+		temp = Double.doubleToLongBits(price);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + (int) (quantity ^ (quantity >>> 32));
+		result = prime * result
+				+ ((tickerSymbol == null) ? 0 : tickerSymbol.hashCode());
+		result = prime * result
+				+ ((timeInMillis == null) ? 0 : timeInMillis.hashCode());
+		result = prime * result
+				+ ((tradeType == null) ? 0 : tradeType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof StockTrade)) {
+			return false;
+		}
+		StockTrade other = (StockTrade) obj;
+		if (id != other.id) {
+			return false;
+		}
+		if (Double.doubleToLongBits(price) != Double
+				.doubleToLongBits(other.price)) {
+			return false;
+		}
+		if (quantity != other.quantity) {
+			return false;
+		}
+		if (tickerSymbol == null) {
+			if (other.tickerSymbol != null) {
+				return false;
+			}
+		} else if (!tickerSymbol.equals(other.tickerSymbol)) {
+			return false;
+		}
+		if (timeInMillis == null) {
+			if (other.timeInMillis != null) {
+				return false;
+			}
+		} else if (!timeInMillis.equals(other.timeInMillis)) {
+			return false;
+		}
+		if (tradeType != other.tradeType) {
+			return false;
+		}
+		return true;
+	}
+
 }
