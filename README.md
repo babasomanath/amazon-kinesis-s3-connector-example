@@ -34,3 +34,7 @@ I am following these guidelines to develop the application.
 
 # Design Considerations :
 
+1) Receive the Records in list, aggregate them after the batch size is reached, Convert the aggregated list into Set. 
+2) Then convert it back to a List.
+3) StockTrade.java  -->  equals() method is overridden to avoid duplicates.  
+4) StockTrade.java  -->  compareTo() method is to be overridden to manage the ordering using Collections.sort() on the Aggregated List.
