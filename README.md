@@ -23,11 +23,11 @@ This is a pre-built library that helps you easily integrate Amazon Kinesis Strea
 
 As per the above documentation, A connector pipeline uses the following interfaces:
 
-    IKinesisConnectorPipeline: The pipeline implementation itself.
-    ITransformer: Defines the transformation of records from the Amazon Kinesis stream in order to suit the user-defined data model. Includes methods for custom serializer/deserializers.
-    IFilter: IFilter defines a method for excluding irrelevant records from the processing.
-    IBuffer: IBuffer defines a system for batching the set of records to be processed. The application can specify three thresholds: number of records, total byte count, and time. When one of these thresholds is crossed, the buffer is flushed and the data is emitted to the destination.
-    IEmitter: Defines a method that makes client calls to other AWS services and persists the records stored in the buffer. The records can also be sent to another Amazon Kinesis stream.
++ **IKinesisConnectorPipeline**: The pipeline implementation itself.
++ **ITransformer**: Defines the transformation of records from the Amazon Kinesis stream in order to suit the user-defined data model. Includes methods for custom serializer/deserializers.
++ **IFilter**: IFilter defines a method for excluding irrelevant records from the processing.
++ **IBuffer**: IBuffer defines a system for batching the set of records to be processed. The application can specify three thresholds: number of records, total byte count, and time. When one of these thresholds is crossed, the buffer is flushed and the data is emitted to the destination.
++ **IEmitter**: Defines a method that makes client calls to other AWS services and persists the records stored in the buffer. The records can also be sent to another Amazon Kinesis stream.
 
 
 I am following these guidelines to develop the application.
