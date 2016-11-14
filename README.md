@@ -16,8 +16,6 @@ java -cp target/amazon-kinesis-s3-connector-example-1.0.0-complete.jar com.kines
 ```
 
 
-```
-
 
 # Amazon Kinesis Connector Library
 
@@ -33,7 +31,6 @@ As per the above documentation, A connector pipeline uses the following interfac
 
 
 I am following these guidelines to develop the application.
-```
 
 # Design Considerations :
 
