@@ -5,11 +5,13 @@ package com.kinesisboard.amazonaws.s3;
 
 import com.amazonaws.services.kinesis.connectors.KinesisConnectorConfiguration;
 import com.amazonaws.services.kinesis.connectors.impl.BasicMemoryBuffer;
+import com.amazonaws.services.kinesis.connectors.impl.JsonToByteArrayTransformer;
 import com.amazonaws.services.kinesis.connectors.interfaces.IBuffer;
 import com.amazonaws.services.kinesis.connectors.interfaces.IEmitter;
 import com.amazonaws.services.kinesis.connectors.interfaces.IFilter;
 import com.amazonaws.services.kinesis.connectors.interfaces.IKinesisConnectorPipeline;
 import com.amazonaws.services.kinesis.connectors.interfaces.ITransformerBase;
+import com.amazonaws.services.kinesis.connectors.s3.S3Emitter;
 import com.kinesisboard.amazonaws.connectors.impl.MyFilter;
 import com.kinesisboard.amazonaws.model.StockTrade;
 
@@ -26,7 +28,7 @@ public class KinesisS3Pipeline implements IKinesisConnectorPipeline<StockTrade, 
 
 	@Override
 	public IEmitter<byte[]> getEmitter(KinesisConnectorConfiguration configuration) {
-		return null;
+		return new S3Emitter(configuration);
 	}
 
 	@Override
@@ -37,7 +39,7 @@ public class KinesisS3Pipeline implements IKinesisConnectorPipeline<StockTrade, 
 	@Override
 	public ITransformerBase<StockTrade, byte[]> getTransformer(
 			KinesisConnectorConfiguration configuration) {
-		return null;
+		return new JsonToByteArrayTransformer<StockTrade>(StockTrade.class);
 	}
 
 }

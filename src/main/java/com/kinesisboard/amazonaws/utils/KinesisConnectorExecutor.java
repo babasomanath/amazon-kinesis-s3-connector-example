@@ -101,6 +101,7 @@ public abstract class KinesisConnectorExecutor <T, U> extends KinesisConnectorEx
             throw new IllegalStateException(msg, e);
         }
         this.config = new KinesisConnectorConfiguration(properties, getAWSCredentialsProvider());
+        System.out.println("Configuration File loaded Properly....");
         setupAWSResources();
         setupInputStream();
 
