@@ -24,3 +24,4 @@ java -cp target/amazon-kinesis-s3-connector-example-1.0.0-complete.jar com.kines
 This is a pre-built library that helps you easily integrate Amazon Kinesis Streams with other AWS services and third-party tools. Amazon Kinesis Client Library (KCL) is required for using this library. The current version of this library provides connectors to Amazon DynamoDB, Amazon Redshift, Amazon S3, and Elasticsearch. The library also includes sample connectors of each type, plus Apache Ant build files for running the samples. https://github.com/awslabs/amazon-kinesis-connectors
 
 ``` 
+
