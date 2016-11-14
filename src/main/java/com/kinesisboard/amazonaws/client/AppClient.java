@@ -6,6 +6,7 @@ package com.kinesisboard.amazonaws.client;
 import com.amazonaws.services.kinesis.connectors.KinesisConnectorRecordProcessorFactory;
 import com.kinesisboard.amazonaws.model.StockTrade;
 import com.kinesisboard.amazonaws.s3.KinesisS3Pipeline;
+import com.kinesisboard.amazonaws.utils.KinesisConnectorExecutor;
 
 /**
  * @author somanath
