@@ -3,18 +3,23 @@ package com.kinesisboard.amazonaws.connectors.impl;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.TreeSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.elasticsearch.common.mvel2.ast.NewObjectNode.NewObjectArray;
 
 import com.amazonaws.services.kinesis.connectors.KinesisConnectorConfiguration;
 import com.amazonaws.services.kinesis.connectors.UnmodifiableBuffer;
 import com.amazonaws.services.kinesis.connectors.interfaces.IEmitter;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kinesisboard.amazonaws.model.StockTrade;
 
 /**
  * @author somanath
@@ -48,15 +53,32 @@ public class MyEmitter implements IEmitter<byte[]> {
     @Override
     public List<byte[]> emit(final UnmodifiableBuffer<byte[]> buffer) throws IOException {
         List<byte[]> records = buffer.getRecords();
+        List<byte[]> deDuplicatedSortedRecords = new ArrayList<byte[]>();
         // Write all of the records to a compressed output stream
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        
+        // Convert the List of Byte Array to Set of Object i.e. from List<byte[]> --> Set<StockTrade>
+        // The set will be de-duplicated as the equals() and hashCode() is overridden
+        // The Set will be sorted as the compareTo() method is overridden and it will ensure the ordering of the data based on the timeinMillis value.
+        // If both the times are same, then both the objects will be there based on their hashcode()
+        TreeSet<StockTrade> deDuplicatedSortedSet = new TreeSet<StockTrade>();
         for (byte[] record : records) {
+        	StockTrade myObj = new ObjectMapper().readValue(record, StockTrade.class);
+        	deDuplicatedSortedSet.add(myObj);
+        }
+        System.out.println(deDuplicatedSortedSet);
+        
+        // Convert that recordset to byte array again for to write into the S3
+        if(deDuplicatedSortedSet.size()>0){
+        	for (StockTrade stockTrade : deDuplicatedSortedSet) {
+        		deDuplicatedSortedRecords.add(new ObjectMapper().writeValueAsString(stockTrade).getBytes());
+        	}
+        }
+        for (byte[] record : deDuplicatedSortedRecords) {
             try {
                 baos.write(record);
             } catch (Exception e) {
-                LOG.error("Error writing record to output stream. Failing this emit attempt. Record: "
-                        + Arrays.toString(record),
-                        e);
+                LOG.error("Error writing record to output stream. Failing this emit attempt. Record: "+ Arrays.toString(record),e);
                 return buffer.getRecords();
             }
         }

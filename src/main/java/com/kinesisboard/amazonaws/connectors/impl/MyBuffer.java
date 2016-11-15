@@ -35,7 +35,6 @@ public class MyBuffer<T> implements IBuffer<T> {
         this.buffer = buffer;
         byteCount = new AtomicLong();
         previousFlushTimeMillisecond = getCurrentTimeMilliseconds();
-        System.out.println("MyBuffer : Buffer Constructor... ");
     }
 
     public MyBuffer(KinesisConnectorConfiguration configuration) {

@@ -34,7 +34,7 @@ As per the above documentation, A connector pipeline uses the following interfac
 
 
 I am following these guidelines to develop the application.
-baba
+
 # Design Considerations :
 
 + **1)** Receive the Records in list, aggregate them after the batch size is reached, Convert the aggregated list into Set. 

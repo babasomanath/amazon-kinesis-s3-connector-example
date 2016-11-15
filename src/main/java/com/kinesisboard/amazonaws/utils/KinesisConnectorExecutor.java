@@ -23,7 +23,6 @@ import com.amazonaws.services.ec2.AmazonEC2;
 import com.amazonaws.services.ec2.AmazonEC2Client;
 import com.amazonaws.services.kinesis.connectors.KinesisConnectorConfiguration;
 import com.amazonaws.services.kinesis.connectors.KinesisConnectorExecutorBase;
-import com.amazonaws.services.kinesis.connectors.KinesisConnectorRecordProcessorFactory;
 import com.amazonaws.services.redshift.AmazonRedshiftClient;
 import com.amazonaws.services.s3.AmazonS3Client;
 
