@@ -13,7 +13,7 @@ public class MyFilter<StockTrade> implements IFilter<StockTrade> {
 
 	@Override
 	public boolean keepRecord(StockTrade record) {
-		System.out.println("I am here .. .. "+record);
-		return false;
+		System.out.println("MyFilter: I am in MyFilter .. .. "+record);
+		return true;
 	}
 }

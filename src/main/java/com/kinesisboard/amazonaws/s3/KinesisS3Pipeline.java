@@ -1,5 +1,5 @@
 /**
- * 
+ * This class is to define the pipeline for step by step execution
  */
 package com.kinesisboard.amazonaws.s3;
 
@@ -11,8 +11,9 @@ import com.amazonaws.services.kinesis.connectors.interfaces.IEmitter;
 import com.amazonaws.services.kinesis.connectors.interfaces.IFilter;
 import com.amazonaws.services.kinesis.connectors.interfaces.IKinesisConnectorPipeline;
 import com.amazonaws.services.kinesis.connectors.interfaces.ITransformerBase;
-import com.amazonaws.services.kinesis.connectors.s3.S3Emitter;
+import com.kinesisboard.amazonaws.connectors.impl.MyEmitter;
 import com.kinesisboard.amazonaws.connectors.impl.MyFilter;
+import com.kinesisboard.amazonaws.connectors.impl.MyTransformer;
 import com.kinesisboard.amazonaws.model.StockTrade;
 
 /**
@@ -28,7 +29,7 @@ public class KinesisS3Pipeline implements IKinesisConnectorPipeline<StockTrade, 
 
 	@Override
 	public IEmitter<byte[]> getEmitter(KinesisConnectorConfiguration configuration) {
-		return new S3Emitter(configuration);
+		return new MyEmitter(configuration);
 	}
 
 	@Override
@@ -39,7 +40,7 @@ public class KinesisS3Pipeline implements IKinesisConnectorPipeline<StockTrade, 
 	@Override
 	public ITransformerBase<StockTrade, byte[]> getTransformer(
 			KinesisConnectorConfiguration configuration) {
-		return new JsonToByteArrayTransformer<StockTrade>(StockTrade.class);
+		return new MyTransformer<StockTrade>(StockTrade.class);
 	}
 
 }

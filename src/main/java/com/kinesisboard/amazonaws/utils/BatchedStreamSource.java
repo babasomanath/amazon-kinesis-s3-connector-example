@@ -57,6 +57,7 @@ public class BatchedStreamSource extends StreamSource {
 
     @Override
     protected void processInputStream(InputStream inputStream, int iteration) throws IOException {
+    	System.out.println("BatchedStreamSource : I am processing the Stream .. ");
         try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
             String line;
             int lines = 0;

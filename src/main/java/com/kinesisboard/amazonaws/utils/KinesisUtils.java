@@ -158,6 +158,7 @@ public class KinesisUtils {
      * @return true if the Amazon Kinesis stream exists, otherwise return false
      */
     private static boolean streamExists(AmazonKinesisClient kinesisClient, String streamName) {
+    	System.out.println("KinesisUtils : Stream Exists .. ");
         DescribeStreamRequest describeStreamRequest = new DescribeStreamRequest();
         describeStreamRequest.setStreamName(streamName);
         try {

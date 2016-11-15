@@ -66,6 +66,7 @@ public class S3Utils {
      * @return true if the Amazon S3 bucket exists, otherwise return false
      */
     private static boolean bucketExists(AmazonS3Client client, String bucketName) {
+    	System.out.println("S3Utils : Bucket "+bucketName+" Exists : "+client.doesBucketExist(bucketName));
         return client.doesBucketExist(bucketName);
     }
 
