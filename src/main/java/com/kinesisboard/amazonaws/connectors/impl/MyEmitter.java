@@ -13,7 +13,6 @@ import org.apache.commons.logging.LogFactory;
 import com.amazonaws.services.kinesis.connectors.KinesisConnectorConfiguration;
 import com.amazonaws.services.kinesis.connectors.UnmodifiableBuffer;
 import com.amazonaws.services.kinesis.connectors.interfaces.IEmitter;
-import com.amazonaws.services.kinesis.connectors.s3.S3Emitter;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 
@@ -23,7 +22,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
  */
 
 public class MyEmitter implements IEmitter<byte[]> {
-    private static final Log LOG = LogFactory.getLog(S3Emitter.class);
+    private static final Log LOG = LogFactory.getLog(MyEmitter.class);
     protected final String s3Bucket;
     protected final String s3Endpoint;
 

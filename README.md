@@ -1,5 +1,5 @@
 # Objective :
-  Implement a KCL application which writes to S3 and orders and de-duplicates records over windows. Then, this logic should be implemented on an S3 app.
+  Implement a KCL application which writes to S3 and orders and de-duplicates records over windows. Then, this logic should be implemented on an Lambda app.
 
 # Producer App
 https://github.com/babasomanath/stock-trade-generator
