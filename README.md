@@ -6,6 +6,7 @@ https://github.com/babasomanath/stock-trade-generator
    
 # This is the Amazon Kinesis Connector Sample for S3
 
+This is a stand-alone application.
 To run this code:
 
 1) Perform a git clone:
